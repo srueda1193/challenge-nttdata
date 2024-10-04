@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  client-service:
+    image: client-service
+    build:
+      context: ./client-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-client:5432/client-db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db-client
+
+  account-service:
+    image: account-service
+    build:
+      context: ./account-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-account:5432/account-db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db-account
+
+  db-client:
+    image: postgres:15.3
+    environment:
+      POSTGRES_DB: client-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  db-account:
+    image: postgres:15.3
+    environment:
+      POSTGRES_DB: account-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+
