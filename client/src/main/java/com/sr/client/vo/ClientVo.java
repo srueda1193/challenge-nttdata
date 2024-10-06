@@ -1,18 +1,16 @@
 package com.sr.client.vo;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@Builder
-@ToString
+@Data
 public class ClientVo {
 
-    PersonRequestVo person;
-    private String clientId;
+    private String identification;
+    private String name;
+    private String gender;
+    private Integer age;
+    private String address;
+    private String phone;
     private String password;
     private Boolean status;
 
