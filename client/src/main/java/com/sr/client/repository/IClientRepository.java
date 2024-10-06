@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepositoryInterface extends JpaRepository<ClientEntity, Long> {
+public interface IClientRepository extends JpaRepository<ClientEntity, Long> {
 
-//    ClientEntity findClientById(Long id);
+    ClientEntity findClientByIdentification(String identification);
 
 //    ClientEntity createClient(ClientEntity clientEntity);
 

@@ -3,17 +3,18 @@ package com.sr.client.services;
 import java.util.List;
 import com.sr.client.entity.ClientEntity;
 import com.sr.client.vo.ClientVo;
+import org.apache.coyote.BadRequestException;
 
-public interface ClientServiceInterface {
+public interface IClientService {
 
-    List<ClientEntity> findClients(List<Long> ids);
+    List<ClientVo> findClients();
 
     ClientEntity createClient(ClientVo client);
 
-    ClientEntity updateClient(ClientVo client);
+    ClientEntity updateClient(ClientVo client) throws Exception;
 
-    ClientEntity findClientById(Long id);
+    ClientVo findClientById(Long id);
 
-    void deleteClient(Long id);
+    void deleteClient(Long id) throws BadRequestException;
 
 }
