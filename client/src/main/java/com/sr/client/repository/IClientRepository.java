@@ -9,10 +9,6 @@ public interface IClientRepository extends JpaRepository<ClientEntity, Long> {
 
     ClientEntity findClientByIdentification(String identification);
 
-//    ClientEntity createClient(ClientEntity clientEntity);
-
-//    ClientEntity updateClient(ClientEntity clientEntity);
-
-//    void deleteClient(String id);
+    ClientEntity findClientByName(String name);
 
 }

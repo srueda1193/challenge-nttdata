@@ -7,10 +7,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class BaseResponseVo {
+public class BaseResponseVo<T> {
 
-    private Integer status;
-    private Object data;
-    private String message;
+    private Metadata metadata;
+    private T data;
 
 }

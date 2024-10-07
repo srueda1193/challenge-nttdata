@@ -4,6 +4,7 @@ import java.util.List;
 import com.sr.client.services.IClientService;
 import com.sr.client.vo.BaseResponseVo;
 import com.sr.client.vo.ClientVo;
+import com.sr.client.vo.Metadata;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
@@ -38,19 +39,31 @@ public class ClientController {
 
             List<ClientVo> clients = this.clientService.findClients();
 
-            if (clients.size()>0) {
+            if (!clients.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.OK)
-                    .body(BaseResponseVo.builder().status(HttpStatus.OK.value()).data(clients).build());
+                    .body(BaseResponseVo.builder()
+                        .metadata(Metadata.builder()
+                            .status(HttpStatus.OK.value())
+                            .message("Response Ok").build())
+                        .data(clients)
+                        .build());
             }
 
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(BaseResponseVo.builder().message("No se encontraron clientes").build());
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("No se encontraron clientes")
+                        .status(HttpStatus.NOT_FOUND.value()).build())
+                    .build());
 
         } catch (Exception e) {
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(BaseResponseVo.builder().message("Hubo un error al buscar el id ingresado")
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message("Hubo un error al buscar el id ingresado").build())
                     .build());
         }
     }
@@ -66,18 +79,66 @@ public class ClientController {
 
             if (null != client) {
                 return ResponseEntity.status(HttpStatus.OK)
-                    .body(BaseResponseVo.builder().data(client).build());
+                    .body(BaseResponseVo.builder().data(client)
+                        .metadata(Metadata.builder()
+                            .status(HttpStatus.OK.value())
+                            .message("Client Found").build())
+                        .build());
             }
 
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(BaseResponseVo.builder().status(HttpStatus.NOT_FOUND.value())
-                    .message("No se encontró el id " + clientId).build());
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .message("No se encontró el id " + clientId)
+                        .build())
+                    .build());
 
         } catch (Exception e) {
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(BaseResponseVo.builder().message("Hubo un error al buscar el id "+clientId)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("Hubo un error al buscar el id "+clientId)
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value()).build())
+                    .build());
+        }
+    }
+
+    @GetMapping(path = "findBy/{name}")
+    @Description("Get client by name")
+    public ResponseEntity<BaseResponseVo> getClientByName(@PathVariable String name) {
+
+        try {
+
+            ClientVo client = this.clientService.findClientByName(name);
+
+            if (null != client) {
+                return ResponseEntity.status(HttpStatus.OK)
+                    .body(BaseResponseVo.builder()
+                        .metadata(Metadata.builder()
+                            .status(HttpStatus.OK.value())
+                            .message("Client found").build())
+                        .data(client).build());
+            }
+
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .message("Client with name " + name + " not found")
+                        .build())
+                    .build());
+
+        } catch (Exception e) {
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("There was an error looking for client with name "+name)
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value()).build())
                     .build());
         }
     }
@@ -119,13 +180,20 @@ public class ClientController {
             this.clientService.deleteClient(clientId);
             return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(BaseResponseVo.builder().message("Registro eliminado").build());
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("Registro eliminado")
+                        .status(HttpStatus.OK.value()).build())
+                    .build());
 
         } catch (Exception e) {
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(BaseResponseVo.builder().status(HttpStatus.NOT_FOUND.value())
-                    .message("No se pudo eliminar el cliente con el id " + clientId).build());
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .message("No se pudo eliminar el cliente con el id " + clientId).build())
+                    .build());
         }
     }
 
