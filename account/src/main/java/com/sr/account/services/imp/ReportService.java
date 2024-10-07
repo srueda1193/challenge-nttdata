@@ -18,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of Report Service
+ * @author srueda
+ */
 @Service
 @Slf4j
 public class ReportService implements IReportService {
@@ -34,6 +38,14 @@ public class ReportService implements IReportService {
     @Lazy
     ClientConnector clientConnector;
 
+    /**
+     *
+     * @param initDate
+     * @param endDate
+     * @param clientId
+     * @return
+     * @throws Exception
+     */
     @Override
     public ReportVo generateReport(String initDate, String endDate, Long clientId)
         throws Exception {
@@ -71,10 +83,16 @@ public class ReportService implements IReportService {
         }
     }
 
+    /**
+     *
+     * @param initDate
+     * @param endDate
+     * @param accountNumber
+     * @return
+     * @throws Exception
+     */
     private List<TransactionVo> getTransactions(String initDate, String endDate, String accountNumber)
         throws Exception {
-
-//            String dateString = "2024-10-07 00:19:04.063352";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
         LocalDateTime initDateLocal = LocalDateTime.parse(initDate, formatter);
         LocalDateTime endDateLocal = LocalDateTime.parse(endDate, formatter);

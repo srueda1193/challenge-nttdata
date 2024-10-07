@@ -3,6 +3,10 @@ package com.sr.client.vo;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ * ClientVo
+ * @author srueda
+ */
 @Data
 public class ClientVo {
 

@@ -18,6 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of Transaction Service
+ *
+ * @author srueda
+ */
 @Service
 @Transactional
 @Slf4j
@@ -31,6 +36,11 @@ public class TransactionService implements ITransactionService {
     @Lazy
     IAccountRepository accountRepository;
 
+    /**
+     * @param transactionId
+     * @return
+     * @throws Exception
+     */
     @Override
     public TransactionVo findTransactionById(String transactionId) throws Exception {
         Optional<TransactionEntity> transaction = transactionRepository.findById(
@@ -39,6 +49,13 @@ public class TransactionService implements ITransactionService {
         return transaction.map(this::mapVoFromEntity).orElse(null);
     }
 
+    /**
+     * @param initDate
+     * @param endDate
+     * @param accountNumber
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<TransactionVo> findTransactionByRange(LocalDateTime initDate, LocalDateTime endDate,
         String accountNumber) throws Exception {
@@ -52,6 +69,11 @@ public class TransactionService implements ITransactionService {
         return transactionVos;
     }
 
+    /**
+     * @param transactionVo
+     * @return
+     * @throws Exception
+     */
     @Override
     @Transactional
     public TransactionEntity createTransaction(TransactionVo transactionVo) throws Exception {
@@ -59,6 +81,11 @@ public class TransactionService implements ITransactionService {
         return transactionRepository.save(mapEntityFromVo(transactionVo));
     }
 
+    /**
+     * @param transactionVoList
+     * @return
+     * @throws Exception
+     */
     @Override
     @Transactional
     public List<TransactionEntity> createTransactions(List<TransactionVo> transactionVoList)
@@ -74,7 +101,11 @@ public class TransactionService implements ITransactionService {
         return transactionEntities;
     }
 
-
+    /**
+     * @param transactionVo
+     * @return
+     * @throws Exception
+     */
     private TransactionEntity mapEntityFromVo(TransactionVo transactionVo) throws Exception {
         TransactionEntity transactionEntity = new TransactionEntity();
 
@@ -93,6 +124,10 @@ public class TransactionService implements ITransactionService {
         return transactionEntity;
     }
 
+    /**
+     * @param transactionEntity
+     * @return
+     */
     private TransactionVo mapVoFromEntity(TransactionEntity transactionEntity) {
         TransactionVo transactionVo = new TransactionVo();
 
@@ -105,10 +140,21 @@ public class TransactionService implements ITransactionService {
         return transactionVo;
     }
 
+    /**
+     * @param balance
+     * @param amount
+     * @return
+     */
     private Double saveDeposit(Double balance, Double amount) {
         return balance + amount;
     }
 
+    /**
+     * @param balance
+     * @param amount
+     * @return
+     * @throws Exception
+     */
     private Double saveWithdraw(Double balance, Double amount) throws Exception {
         if (Math.abs(amount) > Math.abs(balance)) {
             throw new Exception("Insufficient balance");
@@ -116,7 +162,11 @@ public class TransactionService implements ITransactionService {
         return Math.abs(balance) - Math.abs(amount);
     }
 
-
+    /**
+     * @param transactionVo
+     * @return
+     * @throws Exception
+     */
     private Double calculateBalance(TransactionVo transactionVo) throws Exception {
 
         try {
@@ -140,11 +190,19 @@ public class TransactionService implements ITransactionService {
         }
     }
 
+    /**
+     * @param account
+     * @param balance
+     */
     private void updateBalance(AccountEntity account, Double balance) {
         account.setBalance(balance);
         accountRepository.save(account);
     }
 
+    /**
+     * @param accountNumber
+     * @return
+     */
     private AccountEntity getAccountForTransaction(String accountNumber) {
         return accountRepository.findAccountByAccountNumber(accountNumber);
     }

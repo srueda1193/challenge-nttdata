@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * @author srueda
+ * PersonRequestVo
+ */
 @Getter
 @Setter
 @Builder

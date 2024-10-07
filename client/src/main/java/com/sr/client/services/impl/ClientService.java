@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation fo client service
+ *
+ * @author srueda
+ */
 @Service
 @Slf4j
 public class ClientService implements IClientService {
@@ -22,6 +27,9 @@ public class ClientService implements IClientService {
     @Lazy
     IClientRepository clientRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ClientVo> findClients() {
 
@@ -29,8 +37,8 @@ public class ClientService implements IClientService {
 
         List<ClientVo> clientVoList = new ArrayList<>();
 
-        if(clientEntities.size() > 0){
-            clientEntities.stream().forEach( clientEntity -> {
+        if (clientEntities.size() > 0) {
+            clientEntities.stream().forEach(clientEntity -> {
                 clientVoList.add(mapVoFromEntity(clientEntity));
             });
         }
@@ -38,6 +46,9 @@ public class ClientService implements IClientService {
         return clientVoList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClientEntity createClient(ClientVo client) {
 
@@ -45,22 +56,29 @@ public class ClientService implements IClientService {
         return clientRepository.save(clientEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ClientEntity> createClients(List<ClientVo> clients) {
 
         List<ClientEntity> clientsCreated = new ArrayList<>();
         clients.stream().forEach(clientVo -> {
-            clientsCreated.add(createClient( clientVo));
+            clientsCreated.add(createClient(clientVo));
         });
         return clientsCreated;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClientEntity updateClient(ClientVo client) throws Exception {
 
-        ClientEntity clientEntity = clientRepository.findClientByIdentification(client.getIdentification());
+        ClientEntity clientEntity = clientRepository.findClientByIdentification(
+            client.getIdentification());
 
-        if(clientEntity != null){
+        if (clientEntity != null) {
             ClientEntity clientUpdate = mapEntityFromVo(client);
             clientUpdate.setCode(clientEntity.getCode());
             return clientRepository.save(clientUpdate);
@@ -69,43 +87,56 @@ public class ClientService implements IClientService {
         throw new Exception("No se puede actualizar el usuario");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClientVo findClientById(Long id) {
 
         Optional<ClientEntity> client = clientRepository.findById(id);
 
-        if(client.isPresent()){
+        if (client.isPresent()) {
             return mapVoFromEntity(client.get());
-        }else{
+        } else {
             return null;
         }
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClientVo findClientByName(String name) {
         ClientEntity client = clientRepository.findClientByName(name);
 
-        if(client !=null){
+        if (client != null) {
             return mapVoFromEntity(client);
-        }else{
+        } else {
             return null;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteClient(Long id) throws BadRequestException {
         ClientVo client = findClientById(id);
 
-        if(client != null){
+        if (client != null) {
             clientRepository.deleteById(id);
-        }else{
+        } else {
             throw new BadRequestException("Client not found");
         }
     }
 
-
-    private ClientEntity mapEntityFromVo(ClientVo clientVo){
+    /**
+     *
+     * @param clientVo
+     * @return
+     */
+    private ClientEntity mapEntityFromVo(ClientVo clientVo) {
         ClientEntity client = new ClientEntity();
 
         client.setPassword(clientVo.getPassword());
@@ -120,7 +151,12 @@ public class ClientService implements IClientService {
         return client;
     }
 
-    private ClientVo mapVoFromEntity(ClientEntity clientEntity){
+    /**
+     *
+     * @param clientEntity
+     * @return
+     */
+    private ClientVo mapVoFromEntity(ClientEntity clientEntity) {
         ClientVo client = new ClientVo();
 
         client.setClientId(clientEntity.getCode());

@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for client
+ * @author srueda
+ */
 @RestController
 @RequestMapping("/api/v1/client")
 @Lazy
@@ -30,7 +34,10 @@ public class ClientController {
     @Autowired
     private IClientService clientService;
 
-
+    /**
+     *
+     * @return
+     */
     @GetMapping(path = "")
     @Description("Get all client")
     public ResponseEntity<BaseResponseVo> getClients() {
@@ -68,7 +75,11 @@ public class ClientController {
         }
     }
 
-
+    /**
+     *
+     * @param clientId
+     * @return
+     */
     @GetMapping(path = "/{clientId}")
     @Description("Get client by id")
     public ResponseEntity<BaseResponseVo> getClientById(@PathVariable Long clientId) {
@@ -106,6 +117,11 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     @GetMapping(path = "findBy/{name}")
     @Description("Get client by name")
     public ResponseEntity<BaseResponseVo> getClientByName(@PathVariable String name) {
@@ -143,6 +159,11 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     * @param client
+     * @return
+     */
     @PostMapping(path = "")
     @Description("Save a new client")
     public ResponseEntity<BaseResponseVo> createUpdateClient(
@@ -165,6 +186,11 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     * @param clients
+     * @return
+     */
     @PostMapping(path = "/clients")
     @Description("Save several clients")
     public ResponseEntity<BaseResponseVo> createUpdateClient(
@@ -187,6 +213,12 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     * @param client
+     * @return
+     * @throws Exception
+     */
     @PutMapping(path = "")
     @Description("update a client")
     public ResponseEntity<BaseResponseVo> updateClient(
@@ -209,6 +241,11 @@ public class ClientController {
         }
     }
 
+    /**
+     *
+     * @param clientId
+     * @return
+     */
     @DeleteMapping(path = "/{clientId}")
     @Description("delete a client")
     public ResponseEntity<BaseResponseVo> deleteClient(

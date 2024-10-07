@@ -2,7 +2,9 @@ package com.sr.account.vo;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
+/**
+ * @author srueda
+ */
 @Data
 public class AccountVo {
 

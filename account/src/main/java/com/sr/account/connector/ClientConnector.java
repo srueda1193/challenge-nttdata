@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * Connector for client Services
+ * @author srueda
+ */
 @Service
 @Slf4j
 public class ClientConnector {
@@ -16,6 +20,11 @@ public class ClientConnector {
 
     private static final String MICROSERVICE_BASE_URL = "http://client-service:8080/api/v1/client";
 
+    /**
+     *
+     * @param clientId
+     * @return
+     */
     public BaseClientResponseVo findClientByClientId(Long clientId){
 
         String urlTemplate = UriComponentsBuilder.fromHttpUrl(MICROSERVICE_BASE_URL)

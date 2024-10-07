@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for account
+ * @author srueda
+ */
 @RestController
 @RequestMapping("/api/v1/account")
 @Lazy
@@ -30,7 +34,10 @@ public class AccountController {
     @Autowired
     private IAccountService accountService;
 
-
+    /**
+     *
+     * @return
+     */
     @GetMapping(path = "")
     @Description("Get all accounts")
     public ResponseEntity<BaseResponseVo> getAccounts() {
@@ -64,7 +71,11 @@ public class AccountController {
         }
     }
 
-
+    /**
+     *
+     * @param accountNumber
+     * @return
+     */
     @GetMapping(path = "/{accountNumber}")
     @Description("Get account by id")
     public ResponseEntity<BaseResponseVo> getAccountById(@PathVariable String accountNumber) {
@@ -100,6 +111,12 @@ public class AccountController {
         }
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     * @throws Exception
+     */
     @PostMapping(path = "")
     @Description("Save a new account")
     public ResponseEntity<BaseResponseVo> createAccount(
@@ -118,6 +135,12 @@ public class AccountController {
         }
     }
 
+    /**
+     *
+     * @param accounts
+     * @return
+     * @throws Exception
+     */
     @PostMapping(path = "/accounts")
     @Description("Save a new account")
     public ResponseEntity<BaseResponseVo> createAccounts(
@@ -136,6 +159,12 @@ public class AccountController {
         }
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     * @throws Exception
+     */
     @PutMapping(path = "")
     @Description("update an account")
     public ResponseEntity<BaseResponseVo> updateAccount(
@@ -154,6 +183,11 @@ public class AccountController {
         }
     }
 
+    /**
+     *
+     * @param accountNumber
+     * @return
+     */
     @DeleteMapping(path = "/{accountNumber}")
     @Description("delete an account")
     public ResponseEntity<BaseResponseVo> deleteAccount(
@@ -176,6 +210,11 @@ public class AccountController {
         }
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     public BaseResponseVo errorResponse(String message){
         return BaseResponseVo.builder()
             .metadata(MetadataVo.builder()
@@ -184,6 +223,11 @@ public class AccountController {
             .build();
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     public BaseResponseVo notFoundResponse(String message){
         return BaseResponseVo.builder()
             .metadata(MetadataVo.builder()

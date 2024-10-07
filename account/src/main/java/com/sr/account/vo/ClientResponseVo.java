@@ -2,6 +2,9 @@ package com.sr.account.vo;
 
 import lombok.Data;
 
+/**
+ * @author srueda
+ */
 @Data
 public class ClientResponseVo {
 
