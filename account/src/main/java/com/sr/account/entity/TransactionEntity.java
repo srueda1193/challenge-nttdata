@@ -16,6 +16,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * transaction entity
+ *
+ * @author srueda
+ */
 @Entity
 @Table(name = "TRANSACTION")
 @Getter

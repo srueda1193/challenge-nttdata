@@ -19,6 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.ErrorResponseException;
 
+/**
+ * Implementation of Account Service
+ * @author srueda
+ */
 @Service
 @Slf4j
 public class AccountServices implements IAccountService {
@@ -31,6 +35,10 @@ public class AccountServices implements IAccountService {
     @Lazy
     ClientConnector clientConnector;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<AccountVo> findAccounts() {
         List<AccountEntity> accountEntities = accountRepository.findAll();
@@ -42,6 +50,12 @@ public class AccountServices implements IAccountService {
         return accountVos;
     }
 
+    /**
+     *
+     * @param account
+     * @return
+     * @throws Exception
+     */
     @Override
     public AccountVo createAccount(AccountVo account) throws Exception {
 
@@ -66,6 +80,12 @@ public class AccountServices implements IAccountService {
         }
     }
 
+    /**
+     *
+     * @param accounts
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<AccountVo> createAccounts(List<AccountVo> accounts) throws Exception {
         accounts.stream().forEach(accountVo -> {
@@ -79,6 +99,12 @@ public class AccountServices implements IAccountService {
     }
 
 
+    /**
+     *
+     * @param account
+     * @return
+     * @throws Exception
+     */
     @Override
     public AccountVo updateAccount(AccountVo account) throws Exception {
 
@@ -102,6 +128,12 @@ public class AccountServices implements IAccountService {
 
     }
 
+    /**
+     *
+     * @param accountNumber
+     * @return
+     * @throws Exception
+     */
     @Override
     public AccountVo findAccountById(String accountNumber) throws Exception {
         AccountEntity account = accountRepository.findAccountByAccountNumber(accountNumber);
@@ -114,6 +146,12 @@ public class AccountServices implements IAccountService {
         return null;
     }
 
+    /**
+     *
+     * @param clientId
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<AccountVo> findAccountByClientId(Long clientId) throws Exception {
         List<AccountEntity> accounts = accountRepository.findAccountByClientId(clientId);
@@ -128,6 +166,11 @@ public class AccountServices implements IAccountService {
         return accountVoList;
     }
 
+    /**
+     *
+     * @param id
+     * @throws Exception
+     */
     @Override
     public void deleteAccount(String id) throws Exception {
         log.info("here");
@@ -142,6 +185,12 @@ public class AccountServices implements IAccountService {
 
     }
 
+    /**
+     *
+     * @param accountVo
+     * @param id
+     * @return
+     */
     private AccountEntity mapEntityFromVo(AccountVo accountVo, Long id) {
         AccountEntity account = new AccountEntity();
 
@@ -154,6 +203,11 @@ public class AccountServices implements IAccountService {
         return account;
     }
 
+    /**
+     *
+     * @param accountEntity
+     * @return
+     */
     private AccountVo mapVoFromEntity(AccountEntity accountEntity) {
         AccountVo account = new AccountVo();
 

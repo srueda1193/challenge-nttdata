@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for transaction
+ *
+ * @author srueda
+ */
 @RestController
 @RequestMapping("/api/v1/transaction")
 @Lazy
@@ -29,13 +34,18 @@ public class TransactionController {
     @Lazy
     ITransactionService transactionService;
 
+    /**
+     * @param transactionId
+     * @return
+     */
     @GetMapping(path = "/{transactionId}")
     @Description("Get transaction by id")
     public ResponseEntity<BaseResponseVo> getTransactionById(@PathVariable String transactionId) {
 
         try {
 
-            TransactionVo transactionVo = this.transactionService.findTransactionById(transactionId);
+            TransactionVo transactionVo = this.transactionService.findTransactionById(
+                transactionId);
 
             if (null != transactionVo) {
                 return ResponseEntity.status(HttpStatus.OK)
@@ -55,11 +65,17 @@ public class TransactionController {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(BaseResponseVo.builder()
                     .metadata(MetadataVo.builder()
-                        .message("There was an error with "+transactionId + " transaction number").build())
+                        .message("There was an error with " + transactionId + " transaction number")
+                        .build())
                     .build());
         }
     }
 
+    /**
+     * @param transactionVo
+     * @return
+     * @throws Exception
+     */
     @PostMapping(path = "")
     @Description("Save a new transaction")
     public ResponseEntity<BaseResponseVo> createTransaction(
@@ -78,7 +94,11 @@ public class TransactionController {
         }
     }
 
-
+    /**
+     * @param transactionVos
+     * @return
+     * @throws Exception
+     */
     @PostMapping(path = "/transactions")
     @Description("Save a new transaction")
     public ResponseEntity<BaseResponseVo> createTransaction(
@@ -97,7 +117,11 @@ public class TransactionController {
         }
     }
 
-    public BaseResponseVo errorResponse(String message){
+    /**
+     * @param message
+     * @return
+     */
+    public BaseResponseVo errorResponse(String message) {
         return BaseResponseVo.builder()
             .metadata(MetadataVo.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -105,7 +129,11 @@ public class TransactionController {
             .build();
     }
 
-    public BaseResponseVo notFoundResponse(String message){
+    /**
+     * @param message
+     * @return
+     */
+    public BaseResponseVo notFoundResponse(String message) {
         return BaseResponseVo.builder()
             .metadata(MetadataVo.builder()
                 .status(HttpStatus.NOT_FOUND.value())
