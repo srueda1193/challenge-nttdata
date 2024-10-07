@@ -35,8 +35,8 @@ public class AccountEntity implements Serializable {
     @Column(name = "ACCOUNT_TYPE")
     private String accountType;
 
-    @Column(name = "INITIAL_BALANCE")
-    private double initialBalance;
+    @Column(name = "BALANCE")
+    private double balance;
 
     @Column(name = "STATUS")
     private boolean status;

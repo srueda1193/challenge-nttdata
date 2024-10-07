@@ -105,8 +105,12 @@ public class AccountController {
     public ResponseEntity<BaseResponseVo> createAccount(
         @RequestBody AccountVo account) throws Exception {
         try {
-            return ResponseEntity.ok(BaseResponseVo.builder()
-                .data(this.accountService.createAccount(account)).build());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BaseResponseVo.builder()
+                    .metadata(MetadataVo.builder()
+                        .status(HttpStatus.CREATED.value())
+                        .message("Account Created").build())
+                    .data(this.accountService.createAccount(account)).build());
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

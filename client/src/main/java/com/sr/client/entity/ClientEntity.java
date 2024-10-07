@@ -20,10 +20,6 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name ="CLIENT_CODE", referencedColumnName = "CODE")
 public class ClientEntity extends PersonEntity implements Serializable {
-//    @Id
-//    @GeneratedValue(generator = "UUID")
-//    @Column(name = "CLIENT_CODE")
-//    private String clientId;
 
     @Column(name = "PASSWORD")
     private String password;
