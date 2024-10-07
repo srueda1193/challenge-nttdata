@@ -1,6 +1,7 @@
 package com.sr.account.services.imp;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,8 +78,14 @@ public class TransactionService implements ITransactionService {
     private TransactionEntity mapEntityFromVo(TransactionVo transactionVo) throws Exception {
         TransactionEntity transactionEntity = new TransactionEntity();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
+
+        // Parse a formatted string back to LocalDateTime
+        String formattedDate = LocalDateTime.now().format(formatter);
+        LocalDateTime parsedDate = LocalDateTime.parse(formattedDate, formatter);
+
         transactionEntity.setTransactionType(transactionVo.getTransactionType());
-        transactionEntity.setTransactionDate(LocalDateTime.now());
+        transactionEntity.setTransactionDate(parsedDate);
         transactionEntity.setAmount(transactionVo.getAmount());
         transactionEntity.setBalance(calculateBalance(transactionVo));
         transactionEntity.setAccount(getAccountForTransaction(transactionVo.getAccountId()));

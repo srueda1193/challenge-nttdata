@@ -42,7 +42,7 @@ public class ReportService implements IReportService {
 
             //client
             BaseClientResponseVo clientResponseVo = clientConnector.findClientByClientId(
-                Long.parseLong(String.valueOf(clientId)));
+                clientId);
 
             //accounts
             List<AccountVo> accounts = accountService.findAccountByClientId(
@@ -75,7 +75,7 @@ public class ReportService implements IReportService {
         throws Exception {
 
 //            String dateString = "2024-10-07 00:19:04.063352";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
         LocalDateTime initDateLocal = LocalDateTime.parse(initDate, formatter);
         LocalDateTime endDateLocal = LocalDateTime.parse(endDate, formatter);
 
