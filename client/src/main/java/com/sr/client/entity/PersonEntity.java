@@ -13,6 +13,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author srueda
+ * entity for Person
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
@@ -22,7 +26,6 @@ import lombok.Setter;
 public class PersonEntity implements Serializable {
 
     @Id
-//    @GeneratedValue(generator = "UUID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CODE")
     private Long code;

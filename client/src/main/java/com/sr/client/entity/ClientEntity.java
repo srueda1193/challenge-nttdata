@@ -10,8 +10,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
+/**
+ * @author srueda
+ * entity for clients
+ */
 @Entity
 @Table(name = "CLIENT")
 @Getter

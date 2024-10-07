@@ -4,6 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * BaseResponseVo
+ * @author srueda
+ * @param <T>
+ */
 @Builder
 @Getter
 @Setter
