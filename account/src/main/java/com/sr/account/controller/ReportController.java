@@ -57,7 +57,8 @@ public class ReportController {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(BaseResponseVo.builder()
                     .metadata(MetadataVo.builder()
-                        .message("There was an error creating report for clientId " + clientId)
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(e.getMessage())
                         .build())
                     .build());
         }

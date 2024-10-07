@@ -10,6 +10,7 @@ public interface IClientService {
     List<ClientVo> findClients();
 
     ClientEntity createClient(ClientVo client);
+    List<ClientEntity> createClients(List<ClientVo> client);
 
     ClientEntity updateClient(ClientVo client) throws Exception;
 

@@ -6,26 +6,30 @@ services:
     build:
       context: ./client
     ports:
-      - "8081:8081"
+      - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-client:6541/client-db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-client:5432/client-db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
     depends_on:
       - db-client
+    networks:
+      - default
 
   account-service:
     image: account-service
     build:
       context: ./account
     ports:
-      - "8082:8082"
+      - "8081:8081"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-account:6540/account-db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-account:5432/account-db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
     depends_on:
       - db-account
+    networks:
+      - default
 
   db-client:
     image: postgres:15.3
@@ -35,6 +39,8 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "6541:5432"
+    networks:
+      - default
 
   db-account:
     image: postgres:15.3
@@ -44,4 +50,9 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "6540:5432"
+    networks:
+      - default
 
+networks:
+  default:
+    driver: bridge

@@ -46,6 +46,16 @@ public class ClientService implements IClientService {
     }
 
     @Override
+    public List<ClientEntity> createClients(List<ClientVo> clients) {
+
+        List<ClientEntity> clientsCreated = new ArrayList<>();
+        clients.stream().forEach(clientVo -> {
+            clientsCreated.add(createClient( clientVo));
+        });
+        return clientsCreated;
+    }
+
+    @Override
     public ClientEntity updateClient(ClientVo client) throws Exception {
 
         ClientEntity clientEntity = clientRepository.findClientByIdentification(client.getIdentification());

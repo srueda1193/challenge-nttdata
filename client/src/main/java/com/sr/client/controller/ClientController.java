@@ -165,6 +165,28 @@ public class ClientController {
         }
     }
 
+    @PostMapping(path = "/clients")
+    @Description("Save several clients")
+    public ResponseEntity<BaseResponseVo> createUpdateClient(
+        @RequestBody List<ClientVo> clients) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("Client created")
+                        .status(HttpStatus.CREATED.value()).build())
+                    .data(this.clientService.createClients(clients)).build());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .message("Something was wrong while creating a user").build())
+                    .build());
+        }
+    }
+
     @PutMapping(path = "")
     @Description("update a client")
     public ResponseEntity<BaseResponseVo> updateClient(

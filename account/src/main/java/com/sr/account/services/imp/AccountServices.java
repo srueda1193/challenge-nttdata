@@ -46,9 +46,14 @@ public class AccountServices implements IAccountService {
     public AccountVo createAccount(AccountVo account) throws Exception {
 
         try {
+            log.info("into del try");
             BaseClientResponseVo responseVo = clientConnector.findClientByClientId(
                 account.getClientId());
+            log.info("antes del if");
+
+
             if (responseVo.getMetadata().getStatus() == 200) {
+                log.info("dentro del if");
                 AccountEntity accountEntity = mapEntityFromVo(account,
                     responseVo.getData().getClientId());
                 return mapVoFromEntity(accountRepository.save(accountEntity));
