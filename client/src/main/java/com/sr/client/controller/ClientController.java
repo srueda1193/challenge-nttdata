@@ -148,12 +148,20 @@ public class ClientController {
     public ResponseEntity<BaseResponseVo> createUpdateClient(
         @RequestBody ClientVo client) {
         try {
-            return ResponseEntity.ok(BaseResponseVo.builder()
-                .data(this.clientService.createClient(client)).build());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("Client created")
+                        .status(HttpStatus.CREATED.value()).build())
+                    .data(this.clientService.createClient(client)).build());
 
         } catch (Exception e) {
-            return ResponseEntity.ok(BaseResponseVo.builder()
-                .data(this.clientService.createClient(client)).build());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .message("Something was wrong while creating a user").build())
+                    .build());
         }
     }
 
@@ -162,12 +170,20 @@ public class ClientController {
     public ResponseEntity<BaseResponseVo> updateClient(
         @RequestBody ClientVo client) throws Exception {
         try {
-            return ResponseEntity.ok(BaseResponseVo.builder()
-                .data(this.clientService.updateClient(client)).build());
+            return ResponseEntity.status(HttpStatus.OK)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .status(HttpStatus.OK.value())
+                        .message("Client Updated").build())
+                    .data(this.clientService.updateClient(client)).build());
 
         } catch (Exception e) {
-            return ResponseEntity.ok(BaseResponseVo.builder()
-                .data(this.clientService.updateClient(client)).build());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(BaseResponseVo.builder()
+                    .metadata(Metadata.builder()
+                        .message("Couldn't update user")
+                        .status(HttpStatus.BAD_REQUEST.value()).build())
+                    .build());
         }
     }
 
