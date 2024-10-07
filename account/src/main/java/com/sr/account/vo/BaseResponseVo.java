@@ -1,4 +1,4 @@
-package com.sr.client.vo;
+package com.sr.account.vo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class BaseResponseVo<T> {
 
-    private Metadata metadata;
+    private MetadataVo metadata;
     private T data;
 
 }

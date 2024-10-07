@@ -7,9 +7,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class BaseResponseVo<T> {
+public class Metadata {
 
-    private Metadata metadata;
-    private T data;
+    private Integer status;
+    private String message;
 
 }

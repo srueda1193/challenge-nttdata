@@ -73,6 +73,17 @@ public class ClientService implements IClientService {
     }
 
     @Override
+    public ClientVo findClientByName(String name) {
+        ClientEntity client = clientRepository.findClientByName(name);
+
+        if(client !=null){
+            return mapVoFromEntity(client);
+        }else{
+            return null;
+        }
+    }
+
+    @Override
     public void deleteClient(Long id) throws BadRequestException {
         ClientVo client = findClientById(id);
 
@@ -102,6 +113,7 @@ public class ClientService implements IClientService {
     private ClientVo mapVoFromEntity(ClientEntity clientEntity){
         ClientVo client = new ClientVo();
 
+        client.setClientId(clientEntity.getCode());
         client.setPassword(clientEntity.getPassword());
         client.setStatus(clientEntity.getStatus());
         client.setAddress(clientEntity.getAddress());

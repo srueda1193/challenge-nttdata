@@ -15,6 +15,8 @@ public interface IClientService {
 
     ClientVo findClientById(Long id);
 
+    ClientVo findClientByName(String name);
+
     void deleteClient(Long id) throws BadRequestException;
 
 }
