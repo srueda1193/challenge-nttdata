@@ -45,16 +45,19 @@ public class AccountServices implements IAccountService {
     @Override
     public AccountVo createAccount(AccountVo account) throws Exception {
 
-        try{
-            BaseClientResponseVo responseVo = clientConnector.findClientByClientId(account.getClientId());
-            if(responseVo.getMetadata().getStatus() == 200){
-                AccountEntity accountEntity = mapEntityFromVo(account, responseVo.getData().getClientId());
+        try {
+            BaseClientResponseVo responseVo = clientConnector.findClientByClientId(
+                account.getClientId());
+            if (responseVo.getMetadata().getStatus() == 200) {
+                AccountEntity accountEntity = mapEntityFromVo(account,
+                    responseVo.getData().getClientId());
                 return mapVoFromEntity(accountRepository.save(accountEntity));
-            }else{
+            } else {
                 throw new Exception("Client not found or status not successful.");
             }
-        }catch (Exception e){
-            throw new Exception("There was an error creating this account, please check the data", e);
+        } catch (Exception e) {
+            throw new Exception("There was an error creating this account, please check the data",
+                e);
         }
     }
 
@@ -64,7 +67,7 @@ public class AccountServices implements IAccountService {
             try {
                 this.createAccount(accountVo);
             } catch (Exception e) {
-                throw new RuntimeException("There was an error creating this list of accounts",e);
+                throw new RuntimeException("There was an error creating this list of accounts", e);
             }
         });
         return accounts;
@@ -74,27 +77,31 @@ public class AccountServices implements IAccountService {
     @Override
     public AccountVo updateAccount(AccountVo account) throws Exception {
 
-        try{
-            AccountEntity accountEntity= accountRepository.findAccountByAccountNumber(account.getAccountNumber());
+        try {
+            AccountEntity accountEntity = accountRepository.findAccountByAccountNumber(
+                account.getAccountNumber());
 
-            if(accountEntity != null){
-                AccountEntity accountUpdated = mapEntityFromVo(account, accountEntity.getClientId());
+            if (accountEntity != null) {
+                AccountEntity accountUpdated = mapEntityFromVo(account,
+                    accountEntity.getClientId());
                 accountUpdated.setId(accountEntity.getId());
                 accountRepository.save(accountUpdated);
                 return account;
             }
-            throw new Exception("Account with account number "+ account.getAccountNumber()+ " not found ");
-        }catch (Exception e){
-            throw new Exception("Something when wrong while updating account " + account.getAccountNumber());
+            throw new Exception(
+                "Account with account number " + account.getAccountNumber() + " not found ");
+        } catch (Exception e) {
+            throw new Exception(
+                "Something when wrong while updating account " + account.getAccountNumber());
         }
 
     }
 
     @Override
     public AccountVo findAccountById(String accountNumber) throws Exception {
-        AccountEntity account= accountRepository.findAccountByAccountNumber(accountNumber);
+        AccountEntity account = accountRepository.findAccountByAccountNumber(accountNumber);
 
-        if(account != null){
+        if (account != null) {
             AccountVo accountVo = mapVoFromEntity(account);
             return accountVo;
         }
@@ -103,38 +110,52 @@ public class AccountServices implements IAccountService {
     }
 
     @Override
+    public List<AccountVo> findAccountByClientId(Long clientId) throws Exception {
+        List<AccountEntity> accounts = accountRepository.findAccountByClientId(clientId);
+        List<AccountVo> accountVoList = new ArrayList<>();
+
+        if (!accounts.isEmpty()) {
+            accounts.forEach(account -> {
+                accountVoList.add(mapVoFromEntity(account));
+            });
+            return accountVoList;
+        }
+        return accountVoList;
+    }
+
+    @Override
     public void deleteAccount(String id) throws Exception {
         log.info("here");
 
         AccountEntity account = accountRepository.findAccountByAccountNumber(id);
 
-        if(account != null){
+        if (account != null) {
             accountRepository.delete(account);
-        }else{
-            throw new Exception("Error while trying to delete account with id: "+ id);
+        } else {
+            throw new Exception("Error while trying to delete account with id: " + id);
         }
 
     }
 
-    private AccountEntity mapEntityFromVo(AccountVo accountVo, Long id){
+    private AccountEntity mapEntityFromVo(AccountVo accountVo, Long id) {
         AccountEntity account = new AccountEntity();
 
         account.setAccountNumber(accountVo.getAccountNumber());
         account.setStatus(accountVo.isStatus());
         account.setAccountType(accountVo.getAccountType());
-        account.setInitialBalance(accountVo.getInitialBalance());
+        account.setBalance(accountVo.getBalance());
         account.setClientId(id);
 
         return account;
     }
 
-    private AccountVo mapVoFromEntity(AccountEntity accountEntity){
+    private AccountVo mapVoFromEntity(AccountEntity accountEntity) {
         AccountVo account = new AccountVo();
 
         account.setAccountNumber(accountEntity.getAccountNumber());
         account.setStatus(accountEntity.isStatus());
         account.setAccountType(accountEntity.getAccountType());
-        account.setInitialBalance(accountEntity.getInitialBalance());
+        account.setBalance(accountEntity.getBalance());
         account.setClientId(accountEntity.getClientId());
 
         return account;

@@ -18,6 +18,7 @@ public interface IAccountService {
     AccountVo updateAccount(AccountVo account) throws Exception;
 
     AccountVo findAccountById(String accountNumber) throws Exception;
+    List<AccountVo> findAccountByClientId(Long clientId) throws Exception;
 
     void deleteAccount(String id) throws Exception;
 

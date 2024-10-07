@@ -9,7 +9,7 @@ public class AccountVo {
     @NotBlank(message = "Account number is required")
     private String accountNumber;
     private String accountType;
-    private double initialBalance;
+    private double balance;
     private boolean status;
     @NotBlank(message = "client id is required")
     private Long clientId;
